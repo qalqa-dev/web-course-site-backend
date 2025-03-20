@@ -17,5 +17,6 @@ class PersonSerializer(serializers.ModelSerializer):
             "imgUrl",
         ]
 
-        def get_imgUrl(self, obj):
-            return obj.img.url
+    def get_imgUrl(self, obj):
+        base_url = "http://localhost:9000/photos/"
+        return f"{base_url}{obj.contact}.webp"
