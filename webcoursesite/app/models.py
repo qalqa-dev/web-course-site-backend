@@ -20,16 +20,30 @@ class Person(ModelWithId):
     role = models.CharField(max_length=50)
     img = models.ImageField()
 
+    @property
+    def is_teacher(self):
+        return self.teachers.count() > 0
+
+    @property
+    def is_mentor(self):
+        return self.mentors.count() > 0
+
     def __str__(self):
         return self.first_name + " " + self.last_name + " " + self.middle_name
 
 
-class Teacher(Person):
+class Teacher(ModelWithId):
+    person = models.ForeignKey(
+        Person, on_delete=models.CASCADE, related_name="teachers"
+    )
+
     def __str__(self):
         return self.title
 
 
-class Mentor(Person):
+class Mentor(ModelWithId):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="mentors")
+
     def __str__(self):
         return self.title
 
@@ -66,7 +80,7 @@ class Schedule(Post):
     )
 
     def __str__(self):
-        return str(self.course + " " + self.title)
+        return str(self.course + "")
 
 
 class Lecture(ModelWithId):

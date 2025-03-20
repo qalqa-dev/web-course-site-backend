@@ -12,8 +12,26 @@ from .models import (
 )
 
 
+class TeacherSerializer(serializers.ModelSerializer):
+    person = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
+
+    class Meta:
+        fields = "__all__"
+        model = Teacher
+
+
+class MentorSerializer(serializers.ModelSerializer):
+    person = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
+
+    class Meta:
+        fields = "__all__"
+        model = Mentor
+
+
 class PersonSerializer(serializers.ModelSerializer):
     imgUrl = serializers.SerializerMethodField()
+    teachers = TeacherSerializer(many=True)
+    mentors = MentorSerializer(many=True)
 
     class Meta:
         model = Person
@@ -25,21 +43,15 @@ class PersonSerializer(serializers.ModelSerializer):
             "contact",
             "role",
             "imgUrl",
+            "is_teacher",
+            "is_mentor",
         ]
 
     def get_imgUrl(self, obj):
         base_url = "http://localhost:9000/photos/"
         return f"{base_url}{obj.contact}.webp"
 
-
-class TeacherSerializer(PersonSerializer):
-    class Meta(PersonSerializer.Meta):
-        model = Teacher
-
-
-class MentorSerializer(PersonSerializer):
-    class Meta(PersonSerializer.Meta):
-        model = Mentor
+    # def update(self, instance, validated_data): //sosal
 
 
 class PostSerializer(serializers.ModelSerializer):
