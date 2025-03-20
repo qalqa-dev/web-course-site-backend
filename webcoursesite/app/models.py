@@ -21,7 +21,7 @@ class Person(ModelWithId):
     img = models.ImageField()
 
     def __str__(self):
-        return self.title
+        return self.first_name + " " + self.last_name + " " + self.middle_name
 
 
 class Teacher(Person):
@@ -49,15 +49,24 @@ class Lab(Post):
     number = models.IntegerField()
     course = models.ForeignKey("Course", on_delete=models.CASCADE, related_name="labs")
 
+    def __str__(self):
+        return self.title
+
 
 class Test(Post):
     course = models.ForeignKey("Course", on_delete=models.CASCADE, related_name="tests")
+
+    def __str__(self):
+        return self.title
 
 
 class Schedule(Post):
     course = models.ForeignKey(
         "Course", on_delete=models.CASCADE, related_name="schedules"
     )
+
+    def __str__(self):
+        return str(self.course + " " + self.title)
 
 
 class Lecture(ModelWithId):
