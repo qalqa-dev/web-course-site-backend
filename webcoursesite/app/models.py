@@ -60,7 +60,7 @@ class Schedule(Post):
     )
 
 
-class Lectures(ModelWithId):
+class Lecture(ModelWithId):
     title = models.CharField(max_length=50)
     description = models.JSONField()
     href = models.URLField()
