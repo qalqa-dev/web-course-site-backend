@@ -9,3 +9,6 @@ class Person(models.Model):
     contact = models.CharField(max_length=50)
     role = models.CharField(max_length=50)
     img = models.ImageField(upload_to="")
+
+    class Meta:
+        app_label = "app"
