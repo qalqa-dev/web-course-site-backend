@@ -32,20 +32,30 @@ class Person(ModelWithId):
         return self.first_name + " " + self.last_name + " " + self.middle_name
 
 
-class Teacher(ModelWithId):
-    person = models.ForeignKey(
-        Person, on_delete=models.CASCADE, related_name="teachers"
+class TeacherProfile(ModelWithId):
+    person = models.OneToOneField(
+        Person, on_delete=models.CASCADE, related_name="teacher_profile"
     )
 
     def __str__(self):
-        return self.title
+        if not self.person:
+            return
+        return f"{self.person.first_name} {self.person.last_name} {self.person.middle_name}"
 
 
-class Mentor(ModelWithId):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="mentors")
+class MentorProfile(ModelWithId):
+    person = models.OneToOneField(
+        Person, on_delete=models.CASCADE, related_name="mentor_profile"
+    )
 
     def __str__(self):
-        return self.title
+        return (
+            self.person.first_name
+            + " "
+            + self.person.last_name
+            + " "
+            + self.person.middle_name
+        )
 
 
 class Post(ModelWithId):

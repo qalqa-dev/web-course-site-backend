@@ -1,26 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import (
-    Person,
-    Teacher,
-    Mentor,
-    UsefulPost,
-    Lab,
-    Test,
-    Schedule,
-    Lecture,
-    Course,
-)
-from .serializers import (
-    PersonSerializer,
-    TeacherSerializer,
-    MentorSerializer,
-    UsefulPostSerializer,
-    LabSerializer,
-    TestSerializer,
-    ScheduleSerializer,
-    LectureSerializer,
-    CourseSerializer,
-)
+from .models import *
+from .serializers import *
 
 
 class PersonViewSet(ModelViewSet):
@@ -29,12 +9,12 @@ class PersonViewSet(ModelViewSet):
 
 
 class TeacherViewSet(PersonViewSet):
-    queryset = Teacher.objects.all()
+    queryset = TeacherProfile.objects.all()
     serializer_class = TeacherSerializer
 
 
 class MentorViewSet(PersonViewSet):
-    queryset = Mentor.objects.all()
+    queryset = MentorProfile.objects.all()
     serializer_class = MentorSerializer
 
 

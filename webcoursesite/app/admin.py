@@ -39,8 +39,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Teacher, TeacherAdmin)
-admin.site.register(Mentor, MentorAdmin)
+admin.site.register(TeacherProfile, TeacherAdmin)
+admin.site.register(MentorProfile, MentorAdmin)
 admin.site.register(UsefulPost, UsefulPostAdmin)
 admin.site.register(Lab, LabAdmin)
 admin.site.register(Test, TestAdmin)

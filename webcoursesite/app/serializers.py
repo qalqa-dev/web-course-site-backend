@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import (
     Person,
-    Teacher,
-    Mentor,
+    TeacherProfile,
+    MentorProfile,
     UsefulPost,
     Lab,
     Test,
@@ -12,26 +12,10 @@ from .models import (
 )
 
 
-class TeacherSerializer(serializers.ModelSerializer):
-    person = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
-
-    class Meta:
-        fields = "__all__"
-        model = Teacher
-
-
-class MentorSerializer(serializers.ModelSerializer):
-    person = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
-
-    class Meta:
-        fields = "__all__"
-        model = Mentor
-
-
 class PersonSerializer(serializers.ModelSerializer):
     imgUrl = serializers.SerializerMethodField()
-    teachers = TeacherSerializer(many=True)
-    mentors = MentorSerializer(many=True)
+    # teachers = TeacherSerializer(many=True)
+    # mentors = MentorSerializer(many=True)
 
     class Meta:
         model = Person
@@ -51,7 +35,21 @@ class PersonSerializer(serializers.ModelSerializer):
         base_url = "http://localhost:9000/photos/"
         return f"{base_url}{obj.contact}.webp"
 
-    # def update(self, instance, validated_data): //sosal
+
+class TeacherSerializer(serializers.ModelSerializer):
+    person = PersonSerializer()
+
+    class Meta:
+        fields = "__all__"
+        model = TeacherProfile
+
+
+class MentorSerializer(serializers.ModelSerializer):
+    person = PersonSerializer()
+
+    class Meta:
+        fields = "__all__"
+        model = MentorProfile
 
 
 class PostSerializer(serializers.ModelSerializer):
