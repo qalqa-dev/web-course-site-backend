@@ -60,7 +60,7 @@ class MentorProfile(ModelWithId):
 
 class Post(ModelWithId):
     title = models.CharField(max_length=50)
-    content_url = models.URLField()
+    content_url = models.URLField(max_length=255, unique=True)
 
     class Meta:
         abstract = True
