@@ -59,6 +59,7 @@ class MentorProfile(ModelWithId):
 
 
 class Post(ModelWithId):
+    name = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
     content_url = models.URLField(max_length=255, unique=True)
 
@@ -74,7 +75,7 @@ class Lab(Post):
     course = models.ForeignKey("Course", on_delete=models.CASCADE, related_name="labs")
 
     def __str__(self):
-        return self.title
+        return f"({self.course}) - {self.title}"
 
 
 class Test(Post):

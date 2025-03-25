@@ -19,6 +19,7 @@ class UsefulPostAdmin(admin.ModelAdmin):
 
 
 class LabAdmin(admin.ModelAdmin):
+    ordering = ["course", "number"]
     pass
 
 
