@@ -86,12 +86,12 @@ class Test(Post):
 
 
 class Schedule(Post):
-    course = models.ForeignKey(
-        "Course", on_delete=models.CASCADE, related_name="schedules"
+    course = models.OneToOneField(
+        "Course", on_delete=models.CASCADE, related_name="schedule"
     )
 
     def __str__(self):
-        return str(self.course + "")
+        return f"План - {self.course} "
 
 
 class Lecture(ModelWithId):
@@ -109,16 +109,18 @@ class Lecture(ModelWithId):
 class Course(ModelWithId):
     name = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
-    description = models.TextField()
-    statement = models.URLField()
+    description = models.TextField(blank=True)
+    statement = models.URLField(blank=True)
     year = models.IntegerField()
 
     class Type(models.TextChoices):
         DISTANCE = "distance", "Дистанционный"
         FULLTIME = "full-time", "Очный"
 
+    type = models.CharField(max_length=10, choices=Type.choices, default=Type.FULLTIME)
+
     def __str__(self):
-        return self.title
+        return f"{self.title}{' - ' + self.get_type_display() if self.type == self.Type.DISTANCE else ''}"
 
 
 class UsefulPost(Post):

@@ -25,3 +25,19 @@ def list_labs_in_course(course_name: str):
             lab_names.add(parts[0])
 
     return list(lab_names)
+
+
+def check_if_file_exists_in_course_bucket(course_name: str, filename: str) -> bool:
+    try:
+        prefix = filename
+        objects = minio_client.list_objects(
+            course_name, prefix=filename, recursive=False
+        )
+        return any(obj.object_name == prefix for obj in objects)
+    except Exception as e:
+        print(f"Ошибка при проверке файла в MinIO: {e}")
+        return False
+
+
+def get_s3_file_url(course_name: str, filename: str) -> str:
+    return f"{settings.AWS_S3_ENDPOINT_URL}/{course_name}/{filename}"

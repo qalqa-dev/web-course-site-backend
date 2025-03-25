@@ -2,6 +2,7 @@ from app.models import Course
 from app.services.minio_client import list_buckets
 from datetime import datetime
 from app.services.lab_service import sync_labs
+from app.services.schedule_service import sync_schedule
 
 DEFAULT_EXCLUDED_BUCKETS = {"photos"}
 
@@ -32,5 +33,6 @@ def sync_courses(excluded_buckets=None):
     Course.objects.bulk_create(courses_to_create)
 
     sync_labs()
+    sync_schedule()
 
     return len(courses_to_create)
