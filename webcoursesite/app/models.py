@@ -128,3 +128,6 @@ class UsefulPost(Post):
     description = models.TextField()
     lastUpdate = models.DateField()
     date = models.DateField()
+
+    def __str__(self):
+        return str(self.title)

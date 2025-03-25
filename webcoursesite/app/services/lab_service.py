@@ -1,5 +1,5 @@
 from app.models import Lab, Course
-from app.services.minio_client import list_labs_in_course, minio_client
+from app.services.minio_client import list_items_in_bucket, minio_client
 from django.conf import settings
 from minio.error import S3Error
 import re
@@ -11,7 +11,7 @@ def sync_labs():
     created_labs = 0
 
     for course_name in course_names:
-        lab_names = list_labs_in_course(course_name)
+        lab_names = list_items_in_bucket(course_name, "labs/")
 
         course = Course.objects.get(name=course_name)
         existing_labs = set(
@@ -63,6 +63,5 @@ def get_lab_title_from_metadata(course_name: str, lab_name: str) -> str:
         return title
 
     except S3Error as e:
-        # Обработка ошибок MinIO
         print(f"Ошибка при получении файла {file_path} из MinIO: {e}")
         return ""

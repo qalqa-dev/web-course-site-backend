@@ -4,7 +4,7 @@ from datetime import datetime
 from app.services.lab_service import sync_labs
 from app.services.schedule_service import sync_schedule
 
-DEFAULT_EXCLUDED_BUCKETS = {"photos"}
+DEFAULT_EXCLUDED_BUCKETS = {"photos", "useful"}
 
 
 def sync_courses(excluded_buckets=None):

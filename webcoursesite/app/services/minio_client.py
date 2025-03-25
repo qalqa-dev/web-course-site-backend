@@ -10,13 +10,11 @@ minio_client = Minio(
 
 
 def list_buckets():
-    """Получает список всех бакетов (курсов) в MinIO"""
     return [bucket.name for bucket in minio_client.list_buckets()]
 
 
-def list_labs_in_course(course_name: str):
-    prefix = "labs/"
-    objects = minio_client.list_objects(course_name, prefix=prefix, recursive=True)
+def list_items_in_bucket(bucket_name: str, prefix: str = ""):
+    objects = minio_client.list_objects(bucket_name, prefix=prefix, recursive=True)
 
     lab_names = set()
     for obj in objects:
@@ -37,6 +35,16 @@ def check_if_file_exists_in_course_bucket(course_name: str, filename: str) -> bo
     except Exception as e:
         print(f"Ошибка при проверке файла в MinIO: {e}")
         return False
+
+
+def get_bucket(bucket_name: str):
+    try:
+        if minio_client.bucket_exists(bucket_name):
+            return minio_client.list_objects(bucket_name, recursive=True)
+        return None
+    except Exception as e:
+        print(f"Error accessing bucket in MinIO: {e}")
+        return None
 
 
 def get_s3_file_url(course_name: str, filename: str) -> str:
