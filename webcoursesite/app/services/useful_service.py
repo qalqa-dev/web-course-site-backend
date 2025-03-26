@@ -7,7 +7,6 @@ import frontmatter
 import requests
 import os
 from dotenv import load_dotenv
-import os
 import sys
 from tqdm import tqdm
 
