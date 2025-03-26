@@ -26,4 +26,4 @@ def sync_schedule():
             else:
                 print(f"Расписание для курса {course.name} уже существует.")
         else:
-            print(f"Файл plan.md не найден для курса {course.name}.")
+            print(f"Файл расписания не найден для курса {course.name}.")

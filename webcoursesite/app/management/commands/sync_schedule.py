@@ -3,7 +3,5 @@ from app.services.schedule_service import sync_schedule
 
 
 class Command(BaseCommand):
-    help = "Синхронизирует расписание курсов из MinIO"
-
     def handle(self, *args, **kwargs):
         sync_schedule()
