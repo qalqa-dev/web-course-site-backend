@@ -7,10 +7,10 @@ import frontmatter
 
 
 def sync_labs():
-    course_names = set(Course.objects.values_list("name", flat=True))
+    courses = set(Course.objects.values_list("name", flat=True))
     created_labs = 0
 
-    for course_name in course_names:
+    for course_name in courses:
         lab_names = list_items_in_bucket(course_name, "labs/")
 
         course = Course.objects.get(name=course_name)
