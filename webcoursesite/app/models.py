@@ -13,12 +13,11 @@ class ModelWithId(models.Model):
 
 
 class Person(ModelWithId):
-    first_name = models.CharField(max_length=20)
-    middle_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20)
+    middle_name = models.CharField(max_length=20, blank=True)
     contact = models.CharField(max_length=50)
     role = models.CharField(max_length=50)
-    img = models.ImageField()
 
     @property
     def is_teacher(self):
@@ -29,7 +28,7 @@ class Person(ModelWithId):
         return self.mentors.count() > 0
 
     def __str__(self):
-        return self.first_name + " " + self.last_name + " " + self.middle_name
+        return f"{self.last_name} {self.first_name} {self.middle_name}"
 
 
 class TeacherProfile(ModelWithId):

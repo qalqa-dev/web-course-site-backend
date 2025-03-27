@@ -13,9 +13,7 @@ from .models import (
 
 
 class PersonSerializer(serializers.ModelSerializer):
-    imgUrl = serializers.SerializerMethodField()
-    # teachers = TeacherSerializer(many=True)
-    # mentors = MentorSerializer(many=True)
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Person
@@ -26,60 +24,97 @@ class PersonSerializer(serializers.ModelSerializer):
             "last_name",
             "contact",
             "role",
-            "imgUrl",
+            "img_url",
             "is_teacher",
             "is_mentor",
         ]
 
-    def get_imgUrl(self, obj):
+    def get_img_url(self, obj):
         base_url = "http://localhost:9000/photos/"
         return f"{base_url}{obj.contact}.webp"
 
 
 class TeacherSerializer(serializers.ModelSerializer):
-    person = PersonSerializer()
+    id = serializers.UUIDField(source="person.id")
+    first_name = serializers.CharField(source="person.first_name")
+    middle_name = serializers.CharField(source="person.middle_name")
+    last_name = serializers.CharField(source="person.last_name")
+    contact = serializers.CharField(source="person.contact")
+    role = serializers.CharField(source="person.role")
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
-        fields = "__all__"
         model = TeacherProfile
+        fields = [
+            "id",
+            "last_name",
+            "first_name",
+            "middle_name",
+            "contact",
+            "role",
+            "img_url",
+        ]
+
+    def get_img_url(self, obj):
+        base_url = "http://localhost:9000/photos/"
+        return f"{base_url}{obj.person.contact}.webp"
 
 
 class MentorSerializer(serializers.ModelSerializer):
-    person = PersonSerializer()
+    id = serializers.UUIDField(source="person.id")
+    first_name = serializers.CharField(source="person.first_name")
+    middle_name = serializers.CharField(source="person.middle_name")
+    last_name = serializers.CharField(source="person.last_name")
+    contact = serializers.CharField(source="person.contact")
+    role = serializers.CharField(source="person.role")
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
-        fields = "__all__"
         model = MentorProfile
+        fields = [
+            "id",
+            "last_name",
+            "first_name",
+            "middle_name",
+            "contact",
+            "role",
+            "img_url",
+        ]
+
+    def get_img_url(self, obj):
+        base_url = "http://localhost:9000/photos/"
+        return f"{base_url}{obj.person.contact}.webp"
 
 
 class PostSerializer(serializers.ModelSerializer):
-    contentFile = serializers.SerializerMethodField()
 
     class Meta:
-        fields = "__all__"
+        fields = ["id", "title", "content_url"]
         abstract = True
 
-    def get_contentFile(self, obj):
-        base_url = "http://localhost:9000/files/"
-        return f"{base_url}{obj.content_url}"
 
-
-class LabSerializer(PostSerializer):
+class LabSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lab
-        fields = "__all__"
+        fields = [
+            "id",
+            "name",
+            "title",
+            "number",
+            "content_url",
+        ]
 
 
-class TestSerializer(PostSerializer):
+class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = "__all__"
+        exclude = ["course"]
 
 
-class ScheduleSerializer(PostSerializer):
+class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields = "__all__"
+        exclude = ["course"]
 
 
 class LectureSerializer(serializers.ModelSerializer):
@@ -92,20 +127,33 @@ class CourseSerializer(serializers.ModelSerializer):
     lectures = LectureSerializer(many=True, read_only=True)
     labs = LabSerializer(many=True, read_only=True)
     tests = TestSerializer(many=True, read_only=True)
-    schedules = ScheduleSerializer(many=True, read_only=True)
+    schedule = ScheduleSerializer(read_only=True)
 
     class Meta:
         model = Course
-        fields = "__all__"
+        fields = [
+            "id",
+            "name",
+            "title",
+            "type",
+            "description",
+            "statement",
+            "year",
+            "lectures",
+            "schedule",
+            "labs",
+            "tests",
+        ]
+
+
+class CourseShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ["id", "title", "name", "description"]
 
 
 class UsefulPostSerializer(serializers.ModelSerializer):
-    contentFile = serializers.SerializerMethodField()
 
     class Meta:
         model = UsefulPost
         fields = "__all__"
-
-    def get_contentFile(self, obj):
-        base_url = "http://localhost:9000/useful/"
-        return f"{base_url}{obj.content_url}"
