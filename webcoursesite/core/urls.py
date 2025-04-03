@@ -16,9 +16,19 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from app.views import *
+from app.views import (
+    PersonViewSet,
+    TeacherViewSet,
+    MentorViewSet,
+    UsefulPostViewSet,
+    LabViewSet,
+    TestViewSet,
+    ScheduleViewSet,
+    LectureViewSet,
+    CourseViewSet
+)
 
 router = DefaultRouter()
 

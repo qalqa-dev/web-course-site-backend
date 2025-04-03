@@ -30,7 +30,7 @@ class PersonSerializer(serializers.ModelSerializer):
         ]
 
     def get_img_url(self, obj):
-        base_url = "http://localhost:9000/photos/"
+        base_url = "photos/"
         return f"{base_url}{obj.contact}.webp"
 
 
@@ -56,7 +56,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         ]
 
     def get_img_url(self, obj):
-        base_url = "http://localhost:9000/photos/"
+        base_url = "photos/"
         return f"{base_url}{obj.person.contact}.webp"
 
 
@@ -82,7 +82,7 @@ class MentorSerializer(serializers.ModelSerializer):
         ]
 
     def get_img_url(self, obj):
-        base_url = "http://localhost:9000/photos/"
+        base_url = "photos/"
         return f"{base_url}{obj.person.contact}.webp"
 
 
@@ -97,7 +97,6 @@ class LabSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lab
         fields = [
-            "id",
             "name",
             "title",
             "number",
@@ -108,13 +107,13 @@ class LabSerializer(serializers.ModelSerializer):
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        exclude = ["course"]
+        exclude = ["id","course"]
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        exclude = ["course"]
+        exclude = ["id","course"]
 
 
 class LectureSerializer(serializers.ModelSerializer):
@@ -132,7 +131,6 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = [
-            "id",
             "name",
             "title",
             "type",

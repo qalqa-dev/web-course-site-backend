@@ -1,6 +1,5 @@
 from app.models import Lab, Course
 from app.services.minio_client import list_items_in_bucket, minio_client
-from django.conf import settings
 from minio.error import S3Error
 import re
 import frontmatter
@@ -20,11 +19,11 @@ def sync_labs():
         new_labs = set(lab_names) - existing_labs
         labs_to_create = [
             Lab(
-                name=lab_name,
+                name=lab_name[:-3],
                 title=f"{get_lab_title_from_metadata(course_name, lab_name)}",
                 number=extract_lab_number(lab_name),
                 course=course,
-                content_url=f"{settings.AWS_S3_ENDPOINT_URL}/{course_name}/labs/{lab_name}",
+                content_url=f"{course_name}/labs/{lab_name}",
             )
             for i, lab_name in enumerate(new_labs)
         ]

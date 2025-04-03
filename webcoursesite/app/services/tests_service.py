@@ -56,10 +56,10 @@ def sync_tests():
         new_tests = set(test_names) - existing_tests
         tests_to_create = [
             Test(
-                name=test_name,
+                name=test_name[:-3],
                 title=f"{get_test_title_from_metadata(course_name, test_name)}",
                 course=course,
-                content_url=f"{settings.AWS_S3_ENDPOINT_URL}/{course_name}/tests/{test_name}",
+                content_url=f"{course_name}/tests/{test_name}",
             )
             for i, test_name in enumerate(new_tests)
         ]

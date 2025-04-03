@@ -29,9 +29,9 @@ def sync_useful():
         metadata = get_useful_metadata(useful_name)
 
         post = UsefulPost(
-            name=useful_name,
+            name=useful_name[:-3],
             title=metadata["title"],
-            content_url=f"{settings.AWS_S3_ENDPOINT_URL}/useful/{useful_name}",
+            content_url=f"useful/{useful_name}",
             description=metadata["description"],
             semester=metadata["semester"],
             lastUpdate=get_last_edit_date(useful_name),
